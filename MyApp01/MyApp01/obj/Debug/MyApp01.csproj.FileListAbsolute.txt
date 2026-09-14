@@ -7,3 +7,4 @@ C:\app\mygit\MyApp01\MyApp01\obj\Debug\MyApp01.csproj.GenerateResource.cache
 C:\app\mygit\MyApp01\MyApp01\obj\Debug\MyApp01.csproj.CoreCompileInputs.cache
 C:\app\mygit\MyApp01\MyApp01\obj\Debug\MyApp01.exe
 C:\app\mygit\MyApp01\MyApp01\obj\Debug\MyApp01.pdb
+C:\app\mygit\MyApp01\MyApp01\obj\Debug\MyApp01.Form1.resources
