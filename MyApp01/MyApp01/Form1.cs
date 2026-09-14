@@ -12,7 +12,7 @@ namespace MyApp01
 {
     public partial class Form1 : Form
     {
-
+        int contador = 0;
         bool save = false;
         string path;
 
@@ -57,6 +57,12 @@ namespace MyApp01
 
         private void guardarComoToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            guardadoGeneral();
+        }
+
+        private void guardadoGeneral()
+        {
+
             if (sfdGuardar.ShowDialog() == DialogResult.OK)
             {
                 path = sfdGuardar.FileName;
@@ -70,5 +76,27 @@ namespace MyApp01
         {
             this.Close();
         }
+
+        private void tmrGuardar_Tick(object sender, EventArgs e)
+        {
+            contador++;
+            if (contador >= 30)
+            {  
+                contador = 0;
+                if (save)
+                {
+
+                    rctTexto.SaveFile(path, RichTextBoxStreamType.PlainText);
+                    guardarToolStripMenuItem.Enabled = true;
+                    toolStripStatusLabel1.Text = "guardado en la ruta: " + path + " el " + DateTime.Now.ToString();
+                }
+                else
+                {
+                    guardadoGeneral();
+                }
+            }
+
+        }
     }
 }
+
