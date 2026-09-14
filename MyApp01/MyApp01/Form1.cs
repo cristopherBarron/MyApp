@@ -12,49 +12,63 @@ namespace MyApp01
 {
     public partial class Form1 : Form
     {
+
+        bool save = false;
+        string path;
+
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void nuevoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            rctTexto.Clear();
+            rctTexto.Focus();
+            path = "";
+            save = false;
         }
 
-        private void txtResultado_TextChanged(object sender, EventArgs e)
+        private void abrirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (ofpAbrir.ShowDialog() == DialogResult.OK)
+            {
+                path = ofpAbrir.FileName;
+                save = true;
+                rctTexto.LoadFile(ofpAbrir.FileName, RichTextBoxStreamType.PlainText);
+                guardarToolStripMenuItem.Enabled = false;
+            }
         }
 
-        private void label3_Click(object sender, EventArgs e)
+        private void guardarToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (save == false)
+            {
+                if (sfdGuardar.ShowDialog() == DialogResult.OK)
+                {
+                    path = sfdGuardar.FileName;
+                    save = true;
+                }
 
+            }
+            rctTexto.SaveFile(path, RichTextBoxStreamType.PlainText);
+            guardarToolStripMenuItem.Enabled = false;
         }
 
-        private void txtNumero2_TextChanged(object sender, EventArgs e)
+        private void guardarComoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (sfdGuardar.ShowDialog() == DialogResult.OK)
+            {
+                path = sfdGuardar.FileName;
+                rctTexto.SaveFile(path, RichTextBoxStreamType.PlainText);
+                guardarToolStripMenuItem.Enabled = true;
+                save = true;
+            }
         }
 
-        private void txtNumero1_TextChanged(object sender, EventArgs e)
+        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnLimpiar_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnCalcular_Click(object sender, EventArgs e)
-        {
-
+            this.Close();
         }
     }
 }
