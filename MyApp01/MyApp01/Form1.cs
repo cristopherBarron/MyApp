@@ -35,6 +35,7 @@ namespace MyApp01
             {
                 path = ofpAbrir.FileName;
                 save = true;
+                contador = 0;
                 rctTexto.LoadFile(ofpAbrir.FileName, RichTextBoxStreamType.PlainText);
                 guardarToolStripMenuItem.Enabled = false;
             }
@@ -46,6 +47,7 @@ namespace MyApp01
             {
                 if (sfdGuardar.ShowDialog() == DialogResult.OK)
                 {
+                    contador = 0;
                     path = sfdGuardar.FileName;
                     save = true;
                 }
@@ -74,6 +76,11 @@ namespace MyApp01
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (save)
+            {
+                MessageBox.Show("Los cambios se guardaran.");
+                rctTexto.SaveFile(path, RichTextBoxStreamType.PlainText);
+            }
             this.Close();
         }
 

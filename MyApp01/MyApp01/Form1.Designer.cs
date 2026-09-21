@@ -150,7 +150,7 @@
             // tmrGuardar
             // 
             this.tmrGuardar.Enabled = true;
-            this.tmrGuardar.Interval = 600;
+            this.tmrGuardar.Interval = 1000;
             this.tmrGuardar.Tick += new System.EventHandler(this.tmrGuardar_Tick);
             // 
             // Form1
