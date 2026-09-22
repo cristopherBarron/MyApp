@@ -12,6 +12,9 @@ namespace MyApp01
 {
     public partial class Form2 : Form
     {
+        public string actualizaNombre { get; set; }
+        public string actualizaCorreo { get; set; }
+
         public Form2(string nombre, string correo)
         {
             InitializeComponent();
@@ -21,11 +24,15 @@ namespace MyApp01
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-
+            actualizaNombre = txtNombre.Text;
+            actualizaCorreo = txtCorreo.Text;
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
     }
