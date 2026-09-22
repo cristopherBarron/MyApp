@@ -25,3 +25,4 @@ C:\app\mygit\MyApp01\MyApp01\bin\Debug\System.Numerics.Vectors.xml
 C:\app\mygit\MyApp01\MyApp01\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\app\mygit\MyApp01\MyApp01\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\app\mygit\MyApp01\MyApp01\obj\Debug\MyApp01.csproj.Up2Date
+C:\app\mygit\MyApp01\MyApp01\obj\Debug\MyApp01.Form2.resources
