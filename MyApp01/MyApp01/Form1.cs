@@ -67,6 +67,7 @@ namespace MyApp01
             { 
                 var reader = new StreamReader(ofdCSV.FileName);
                 var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+
                 registros = csv.GetRecords<Persona>().ToList();
                 foreach (var registro in registros)
                 {
@@ -77,17 +78,48 @@ namespace MyApp01
 
         private void dgvRegistros_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            //MessageBox.Show("mamadas");
 
             Form2 editar = new Form2(dgvRegistros.Rows[e.RowIndex].Cells[1].Value.ToString(), dgvRegistros.Rows[e.RowIndex].Cells[2].Value.ToString());
             //editar.Show();
             if (editar.ShowDialog() == DialogResult.OK)
             {
+                string[] aux = encontrar();
+
                 string nombre = editar.actualizaNombre;
                 string correo = editar.actualizaCorreo;
 
                 dgvRegistros.Rows[e.RowIndex].Cells[1].Value = nombre;
                 dgvRegistros.Rows[e.RowIndex].Cells[2].Value = correo;
+
+                string registrosActualizados = aux[0] + nombre + "," + correo + aux[1];
+                var writer = new StreamWriter(ofdCSV.FileName);
+                writer.Write(registrosActualizados);
+                writer.Close();
             }
         }
+
+        private string[] encontrar() {
+            string[] aux = new string[2];
+            
+            var reader = new StreamReader(ofdCSV.FileName);
+            string recor = "", registro = dgvRegistros.Rows[e.RowIndex].Cells[1].Value.ToString() + "," + dgvRegistros.Rows[e.RowIndex].Cells[2].Value.ToString();
+
+            while (!reader.EndOfStream)
+            {
+                recor += reader.Read();
+                if (recor.Contains(registro))
+                    aux[1] += (char)recor[recor.Length - 1];
+                else
+                    aux[0] += (char)recor[recor.Length - 1];
+            }
+
+            aux[0] = aux[0].Substring(0, aux[0].Length - registro.Length - 1);
+
+                //string[] aux = reader.ReadToEnd().ToString().Split(dgvRegistros.Rows[e.RowIndex].Cells[1].Value.ToString() + "," + dgvRegistros.Rows[e.RowIndex].Cells[2].Value.ToString());
+                reader.Close();
+            return aux;
+        }
+
     }
 }
