@@ -64,33 +64,51 @@ namespace MyApp01
         private void btnCargar_Click(object sender, EventArgs e)
         {
             if (ofdCSV.ShowDialog() == DialogResult.OK)
-            { 
+            {
                 var reader = new StreamReader(ofdCSV.FileName);
                 var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
 
                 registros = csv.GetRecords<Persona>().ToList();
+                reader.Close();
                 foreach (var registro in registros)
                 {
-                    dgvRegistros.Rows.Add(registro.id,registro.name,registro.email);
+                    dgvRegistros.Rows.Add(registro.id, registro.name, registro.email);
                 }
+
             }
         }
 
         private void dgvRegistros_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            int i = e.RowIndex;
+            if (i < 0) return;
 
-            Form2 editar = new Form2(dgvRegistros.Rows[e.RowIndex].Cells[1].Value.ToString(), dgvRegistros.Rows[e.RowIndex].Cells[2].Value.ToString());
-            //editar.Show();
-            if (editar.ShowDialog() == DialogResult.OK)
-            {
-                string nombre = editar.actualizaNombre;
-                string correo = editar.actualizaCorreo;
-
-                dgvRegistros.Rows[e.RowIndex].Cells[1].Value = nombre;
-                dgvRegistros.Rows[e.RowIndex].Cells[2].Value = correo;
-
-                
+            switch (e.ColumnIndex)
+            { 
+                case 3:
+                    Form2 editar = new Form2(dgvRegistros.Rows[i].Cells[1].Value.ToString(), dgvRegistros.Rows[i].Cells[2].Value.ToString());
+                    if (editar.ShowDialog() == DialogResult.OK)
+                    {
+                        dgvRegistros.Rows[i].Cells[1].Value = registros[i].name = editar.actualizaNombre;
+                        dgvRegistros.Rows[i].Cells[2].Value = registros[i].email = editar.actualizaCorreo;
+                    }
+                    else return;
+                    break;
+                case 4:
+                    if (MessageBox.Show("¿Esta seguro que quiere borrar el registro con el id: " + registros[i].id + " ?", "Eliminar registro", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        dgvRegistros.Rows.RemoveAt(i);
+                        registros.RemoveAt(i);
+                    }
+                    else return;
+                    break;
+                default: return;
             }
+            var writer = new StreamWriter(ofdCSV.FileName);
+            var csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture);
+
+            csvWriter.WriteRecords(registros);
+            writer.Close();
         }
     }
 }

@@ -32,7 +32,7 @@ namespace MyApp01
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            
             this.Close();
         }
     }
