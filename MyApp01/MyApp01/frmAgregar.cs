@@ -79,5 +79,10 @@ namespace MyApp01
 
 
         }
+
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

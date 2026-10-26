@@ -13,9 +13,9 @@ namespace MyApp01
 
         string cadenaConexion = "Server=localhost;Database=Agenda;User=sa;Password=l12345678.;Encrypt=False;";
 
+
         public Datos()
         {
-
         }
         private SqlConnection conexionOpen()
         {

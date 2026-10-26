@@ -14,28 +14,45 @@ namespace MyApp01
     {
         Datos datos;
         int idSelec = -1;
-        public fmrInformacion()
+        int tablaSelec;
+        public fmrInformacion(int tablaSelec)
         {
             InitializeComponent();
+            this.tablaSelec = tablaSelec;
+            if (tablaSelec != 0)
+            {
+                btnInsertar.Visible = false;
+                modificarToolStripMenuItem.Visible = false;
+                eliminarToolStripMenuItem.Visible = false;
+            }
+            else
+            {
+                consultarMunicipiosToolStripMenuItem.Visible = false;
+            }
+
         }
         private void ActualizarGrid()
         {
             datos = new Datos();
-            DataSet ds = datos.Informacion("Select * from Datos");
-
+            DataSet ds = null;
+            switch (tablaSelec)
+            {
+                case 0: ds = datos.Informacion("Select * from Datos;"); break;
+                case 1: ds = datos.Informacion("Select * from Entidades..Estados;"); break;
+                case 2: ds = datos.Informacion("Select id_mun, nombre_mun from Entidades..Municipios where id_est=" + idSelec); break;
+            }
             if (ds != null)
             {
+                /*
                 dgvInformacion.AutoGenerateColumns = false;
-
-                dgvInformacion.Columns[0].DataPropertyName = "id";
                 dgvInformacion.Columns[1].DataPropertyName = "nombre";
                 dgvInformacion.Columns[2].DataPropertyName = "paterno";
                 dgvInformacion.Columns[3].DataPropertyName = "materno";
+                dgvInformacion.Columns[0].DataPropertyName = "id";
                 dgvInformacion.Columns[4].DataPropertyName = "telefono";
                 dgvInformacion.Columns[5].DataPropertyName = "correo";
-
+                }*/
                 dgvInformacion.DataSource = ds.Tables[0];
-
             }
             else
             {
@@ -60,8 +77,6 @@ namespace MyApp01
             ActualizarGrid();
         }
 
-       
-
         private void modificarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (idSelec > 0)
@@ -70,22 +85,21 @@ namespace MyApp01
                     dgvInformacion.CurrentRow.Cells[2].Value.ToString(),
                     dgvInformacion.CurrentRow.Cells[3].Value.ToString(),
                     dgvInformacion.CurrentRow.Cells[4].Value.ToString(),
-                    dgvInformacion.CurrentRow.Cells[5].Value.ToString(), 
+                    dgvInformacion.CurrentRow.Cells[5].Value.ToString(),
                     idSelec);
 
-                agregar.Show();               
+                agregar.Show();
             }
-        
+
         }
 
         private void eliminarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
             if (idSelec > 0)
             {
-                DialogResult confirmacion = MessageBox.Show("¿Deseas eliminar este registro?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (confirmacion == DialogResult.Yes)
+                if (MessageBox.Show("¿Deseas eliminar este registro?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                    == DialogResult.Yes)
                 {
                     bool eliminado = datos.ejecutar("DELETE FROM Datos WHERE id = " + idSelec);
 
@@ -100,7 +114,7 @@ namespace MyApp01
                     }
                 }
             }
-        
+
         }
 
         private void dgvInformacion_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
@@ -110,6 +124,28 @@ namespace MyApp01
                 dgvInformacion.ClearSelection();
                 dgvInformacion.Rows[e.RowIndex].Selected = true;
                 idSelec = Convert.ToInt32(dgvInformacion.Rows[e.RowIndex].Cells[0].Value);
+            }
+        }
+
+        private void btnSalir_Click(object sender, EventArgs e)
+        {
+            if (tablaSelec == 2)
+            {
+                tablaSelec = 1;
+                consultarMunicipiosToolStripMenuItem.Enabled = true;
+                ActualizarGrid();
+            }
+            else
+                this.Close();
+        }
+
+        private void consultarMunicipiosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (idSelec > 0)
+            {
+                tablaSelec = 2;
+                consultarMunicipiosToolStripMenuItem.Enabled = false;
+                ActualizarGrid();
             }
         }
     }
