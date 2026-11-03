@@ -12,38 +12,24 @@ namespace MyApp01
 {
     public partial class fmrInformacion : Form
     {
+
         Datos datos;
         int idSelec = -1;
-        int tablaSelec;
-        public fmrInformacion(int tablaSelec)
+        
+        public fmrInformacion()
         {
             InitializeComponent();
-            this.tablaSelec = tablaSelec;
-            if (tablaSelec != 0)
-            {
-                btnInsertar.Visible = false;
-                modificarToolStripMenuItem.Visible = false;
-                eliminarToolStripMenuItem.Visible = false;
-            }
-            else
-            {
-                consultarMunicipiosToolStripMenuItem.Visible = false;
-            }
-
         }
         private void ActualizarGrid()
         {
             datos = new Datos();
-            DataSet ds = null;
-            switch (tablaSelec)
-            {
-                case 0: ds = datos.Informacion("Select * from Datos;"); break;
-                case 1: ds = datos.Informacion("Select * from Entidades..Estados;"); break;
-                case 2: ds = datos.Informacion("Select id_mun, nombre_mun from Entidades..Municipios where id_est=" + idSelec); break;
-            }
+            DataSet ds = datos.Informacion("Select id,nombre,paterno,materno,telefono,correo,Estado,Municipio from Datos " +
+                "Inner Join Estados On Datos.idEstado = Estados.idEstado " +
+                "Inner Join Municipios On Datos.idMunicipio=Municipios.idMunicipio");
+
             if (ds != null)
             {
-                /*
+                
                 dgvInformacion.AutoGenerateColumns = false;
                 dgvInformacion.Columns[1].DataPropertyName = "nombre";
                 dgvInformacion.Columns[2].DataPropertyName = "paterno";
@@ -51,7 +37,9 @@ namespace MyApp01
                 dgvInformacion.Columns[0].DataPropertyName = "id";
                 dgvInformacion.Columns[4].DataPropertyName = "telefono";
                 dgvInformacion.Columns[5].DataPropertyName = "correo";
-                }*/
+                dgvInformacion.Columns[6].DataPropertyName = "estado";
+                dgvInformacion.Columns[7].DataPropertyName = "municipio";
+
                 dgvInformacion.DataSource = ds.Tables[0];
             }
             else
@@ -75,6 +63,7 @@ namespace MyApp01
         private void fmrInformacion_Activated(object sender, EventArgs e)
         {
             ActualizarGrid();
+            dgvInformacion.ClearSelection();
         }
 
         private void modificarToolStripMenuItem_Click(object sender, EventArgs e)
@@ -89,8 +78,8 @@ namespace MyApp01
                     idSelec);
 
                 agregar.Show();
-            }
 
+            }
         }
 
         private void eliminarToolStripMenuItem_Click(object sender, EventArgs e)
@@ -117,36 +106,24 @@ namespace MyApp01
 
         }
 
-        private void dgvInformacion_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
-            {
-                dgvInformacion.ClearSelection();
-                dgvInformacion.Rows[e.RowIndex].Selected = true;
-                idSelec = Convert.ToInt32(dgvInformacion.Rows[e.RowIndex].Cells[0].Value);
-            }
-        }
 
         private void btnSalir_Click(object sender, EventArgs e)
         {
-            if (tablaSelec == 2)
-            {
-                tablaSelec = 1;
-                consultarMunicipiosToolStripMenuItem.Enabled = true;
-                ActualizarGrid();
-            }
-            else
-                this.Close();
+            this.Close();
         }
 
-        private void consultarMunicipiosToolStripMenuItem_Click(object sender, EventArgs e)
+        private void dgvInformacion_CellMouseUp_1(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (idSelec > 0)
+            if (e.RowIndex >= 0 && e.RowIndex < (dgvInformacion.RowCount - 1))
             {
-                tablaSelec = 2;
-                consultarMunicipiosToolStripMenuItem.Enabled = false;
-                ActualizarGrid();
+                dgvInformacion.Rows[e.RowIndex].Selected = true;
+                dgvInformacion.CurrentCell = dgvInformacion.Rows[e.RowIndex].Cells[0];
+                idSelec = Convert.ToInt32(dgvInformacion.Rows[e.RowIndex].Cells[0].Value);
+
             }
+            else
+                idSelec = -1;
         }
+ 
     }
 }

@@ -30,7 +30,6 @@
         {
             this.btnCerrar = new System.Windows.Forms.Button();
             this.btnAgregar = new System.Windows.Forms.Button();
-            this.txtCorreo = new System.Windows.Forms.TextBox();
             this.txtTelefono = new System.Windows.Forms.MaskedTextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtMaterno = new System.Windows.Forms.TextBox();
@@ -39,12 +38,17 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cmbMunicipios = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.cmbEstados = new System.Windows.Forms.ComboBox();
+            this.txtCorreo = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnCerrar
             // 
-            this.btnCerrar.Location = new System.Drawing.Point(121, 247);
+            this.btnCerrar.Location = new System.Drawing.Point(120, 317);
             this.btnCerrar.Margin = new System.Windows.Forms.Padding(2);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(87, 27);
@@ -55,7 +59,7 @@
             // 
             // btnAgregar
             // 
-            this.btnAgregar.Location = new System.Drawing.Point(11, 247);
+            this.btnAgregar.Location = new System.Drawing.Point(10, 317);
             this.btnAgregar.Margin = new System.Windows.Forms.Padding(2);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(87, 27);
@@ -63,14 +67,6 @@
             this.btnAgregar.Text = "Agregar";
             this.btnAgregar.UseVisualStyleBackColor = true;
             this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
-            // 
-            // txtCorreo
-            // 
-            this.txtCorreo.Location = new System.Drawing.Point(11, 207);
-            this.txtCorreo.Margin = new System.Windows.Forms.Padding(2);
-            this.txtCorreo.Name = "txtCorreo";
-            this.txtCorreo.Size = new System.Drawing.Size(199, 20);
-            this.txtCorreo.TabIndex = 20;
             // 
             // txtTelefono
             // 
@@ -145,25 +141,76 @@
             this.label1.TabIndex = 12;
             this.label1.Text = "Nombre";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(12, 277);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(52, 13);
+            this.label7.TabIndex = 26;
+            this.label7.Text = "Municipio";
+            // 
+            // cmbMunicipios
+            // 
+            this.cmbMunicipios.FormattingEnabled = true;
+            this.cmbMunicipios.Location = new System.Drawing.Point(13, 292);
+            this.cmbMunicipios.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbMunicipios.Name = "cmbMunicipios";
+            this.cmbMunicipios.Size = new System.Drawing.Size(199, 21);
+            this.cmbMunicipios.TabIndex = 25;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(10, 231);
+            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(40, 13);
+            this.label6.TabIndex = 24;
+            this.label6.Text = "Estado";
+            // 
+            // cmbEstados
+            // 
+            this.cmbEstados.FormattingEnabled = true;
+            this.cmbEstados.Location = new System.Drawing.Point(12, 246);
+            this.cmbEstados.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbEstados.Name = "cmbEstados";
+            this.cmbEstados.Size = new System.Drawing.Size(199, 21);
+            this.cmbEstados.TabIndex = 23;
+            this.cmbEstados.SelectedIndexChanged += new System.EventHandler(this.cmbEstados_SelectedIndexChanged);
+            // 
+            // txtCorreo
+            // 
+            this.txtCorreo.Location = new System.Drawing.Point(12, 205);
+            this.txtCorreo.Margin = new System.Windows.Forms.Padding(2);
+            this.txtCorreo.Name = "txtCorreo";
+            this.txtCorreo.Size = new System.Drawing.Size(199, 20);
+            this.txtCorreo.TabIndex = 28;
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(8, 190);
+            this.label5.Location = new System.Drawing.Point(14, 190);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(41, 13);
-            this.label5.TabIndex = 23;
-            this.label5.Text = "Correo:";
+            this.label5.Size = new System.Drawing.Size(38, 13);
+            this.label5.TabIndex = 27;
+            this.label5.Text = "Correo";
             // 
             // frmAgregar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(218, 282);
+            this.ClientSize = new System.Drawing.Size(218, 356);
+            this.Controls.Add(this.txtCorreo);
             this.Controls.Add(this.label5);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.cmbMunicipios);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.cmbEstados);
             this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.btnAgregar);
-            this.Controls.Add(this.txtCorreo);
             this.Controls.Add(this.txtTelefono);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtMaterno);
@@ -174,6 +221,7 @@
             this.Controls.Add(this.label1);
             this.Name = "frmAgregar";
             this.Text = "frmAgregar";
+            this.Load += new System.EventHandler(this.frmAgregar_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -183,7 +231,6 @@
 
         private System.Windows.Forms.Button btnCerrar;
         private System.Windows.Forms.Button btnAgregar;
-        private System.Windows.Forms.TextBox txtCorreo;
         private System.Windows.Forms.MaskedTextBox txtTelefono;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtMaterno;
@@ -192,6 +239,11 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ComboBox cmbMunicipios;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox cmbEstados;
+        private System.Windows.Forms.TextBox txtCorreo;
         private System.Windows.Forms.Label label5;
     }
 }

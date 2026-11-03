@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
+using System.Windows.Forms;
 
 namespace MyApp01
 {
@@ -73,11 +74,13 @@ namespace MyApp01
 
         public DataSet Informacion(string comando)
         {
-            DataSet ds = new DataSet();
+            DataSet ds = new DataSet(); 
             try
             {
                 SqlConnection conecta = conexionOpen();
+                
                 SqlDataAdapter da = new SqlDataAdapter(comando, conecta);
+                
                 da.Fill(ds);
                 conexionClose(conecta);
                 return ds;

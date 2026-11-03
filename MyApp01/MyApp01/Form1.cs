@@ -20,7 +20,7 @@ namespace MyApp01
 
         private void informacionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            fmrInformacion informacion = new fmrInformacion(0);
+            fmrInformacion informacion = new fmrInformacion();
 
             informacion.Show();
         }
@@ -29,13 +29,5 @@ namespace MyApp01
         {
             this.Close();
         }
-
-        private void estadosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            fmrInformacion informacion = new fmrInformacion(1);
-
-            informacion.Show();
-        }
-
     }
 }

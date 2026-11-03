@@ -19,7 +19,7 @@ namespace MyApp01
         public frmAgregar()
         {
             InitializeComponent();
-            
+
         }
         public frmAgregar(string nombre, string paterno, string materno,
             string telefono, string correo, int id)
@@ -30,7 +30,7 @@ namespace MyApp01
             txtMaterno.Text = materno;
             txtTelefono.Text = telefono;
             txtCorreo.Text = correo;
-            btnAgregar.Text = "Actualiza";
+            btnAgregar.Text = "Actualizar";
             updateMode = true;
             this.id = id;
         }
@@ -38,12 +38,12 @@ namespace MyApp01
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             datos = new Datos();
-            if (updateMode == false)
+            if (!updateMode)
             {
                 bool f = datos.ejecutar("Insert Into Datos(nombre,paterno,materno," +
-                "telefono,correo)Values('"
+                "telefono,correo,idEstado,idMunicipio)Values('"
                 + txtNombre.Text + "','" + txtPaterno.Text + "','" + txtMaterno.Text
-                + "','" + txtTelefono.Text + "','" + txtCorreo.Text + "')");
+                + "','" + txtTelefono.Text + "','" + txtCorreo.Text + "'," +cmbEstados.SelectedValue + "," +cmbMunicipios.SelectedValue + ")");
                 if (f)
                 {
                     MessageBox.Show("Registro agregado correctamente");
@@ -58,12 +58,14 @@ namespace MyApp01
             {
                 SqlCommand comando = new SqlCommand("Update Datos Set nombre=@nombre," +
                     "paterno=@paterno,materno=@materno,telefono=@telefono," +
-                    "correo=@correo Where id=@id");
+                    "correo=@correo, idEstado=@idEstado, idMunicipio=@idMunicipio Where id=@id");
                 comando.Parameters.AddWithValue("@nombre", txtNombre.Text);
                 comando.Parameters.AddWithValue("@paterno", txtPaterno.Text);
                 comando.Parameters.AddWithValue("@materno", txtMaterno.Text);
                 comando.Parameters.AddWithValue("@telefono", txtTelefono.Text);
                 comando.Parameters.AddWithValue("@correo", txtCorreo.Text);
+                comando.Parameters.AddWithValue("@idEstado", cmbEstados.SelectedValue);
+                comando.Parameters.AddWithValue("@idMunicipio",cmbMunicipios.SelectedValue);
                 comando.Parameters.AddWithValue("@id", id);
                 bool f = datos.ejecutar(comando);
                 if (f)
@@ -83,6 +85,54 @@ namespace MyApp01
         private void btnCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void frmAgregar_Load(object sender, EventArgs e)
+        { 
+            datos = new Datos();
+            DataSet dsEstados;
+            string consulta = "Select * From Estados;";
+
+            if (updateMode)
+                consulta += " select idEstado, idMunicipio from Datos where id="+ id;
+
+            dsEstados = datos.Informacion(consulta);
+
+            if (dsEstados != null && dsEstados.Tables.Count > 0)
+            {
+                cmbEstados.DataSource = dsEstados.Tables[0];
+                cmbEstados.DisplayMember = "Estado";
+                cmbEstados.ValueMember = "idEstado";
+
+                CambiosMunicipio(Convert.ToInt32(cmbEstados.SelectedIndex + 1));
+
+                if (updateMode)
+                {
+                    cmbEstados.SelectedValue = dsEstados.Tables[1].Rows[0][0];
+                    cmbMunicipios.SelectedValue = dsEstados.Tables[1].Rows[0][1];
+                }
+            }
+
+
+        }
+        private void CambiosMunicipio(int idEstado)
+        {
+            DataSet dsMunicipios;
+            dsMunicipios = datos.Informacion("Select * " +
+                    "From Municipios Where idEstado="
+                    + idEstado);
+            if (dsMunicipios != null && dsMunicipios.Tables.Count > 0)
+            {
+                cmbMunicipios.DataSource = dsMunicipios.Tables[0];
+                cmbMunicipios.DisplayMember = "Municipio";
+                cmbMunicipios.ValueMember = "idMunicipio";
+            }
+        }
+
+        private void cmbEstados_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CambiosMunicipio(Convert.ToInt32(cmbEstados.SelectedIndex + 1));
+
         }
     }
 }
